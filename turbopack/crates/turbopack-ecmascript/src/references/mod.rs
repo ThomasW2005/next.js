@@ -123,7 +123,7 @@ use crate::{
     },
     chunk::EcmascriptExports,
     code_gen::{CodeGen, CodeGenerateable, CodeGenerateableWithAsyncModuleInfo, CodeGenerateables},
-    magic_identifier, parse,
+    magic_identifier,
     references::{
         async_module::{AsyncModule, OptionAsyncModule},
         cjs::{CjsRequireAssetReference, CjsRequireCacheAccess, CjsRequireResolveAssetReference},
@@ -133,7 +133,7 @@ use crate::{
         require_context::{RequireContextAssetReference, RequireContextMap},
         type_issue::SpecifiedModuleTypeIssue,
     },
-    tree_shake::{find_turbopack_part_id_in_asserts, part_of_module, split},
+    tree_shake::find_turbopack_part_id_in_asserts,
     utils::{module_value_to_well_known_object, AstPathRange},
     EcmascriptInputTransforms, EcmascriptModuleAsset, EcmascriptParsable, SpecifiedModuleType,
     TreeShakingMode,
@@ -438,13 +438,7 @@ pub(crate) async fn analyse_ecmascript_module_internal(
         EcmascriptModuleAssetType::Ecmascript => false,
     };
 
-    let parsed = if let Some(part) = part {
-        let parsed = parse(source, ty, transforms);
-        let split_data = split(source.ident(), source, parsed);
-        part_of_module(split_data, part)
-    } else {
-        module.failsafe_parse()
-    };
+    let parsed = module.failsafe_parse(part);
 
     let ModuleTypeResult {
         module_type: specified_type,
