@@ -298,7 +298,7 @@ impl EcmascriptModuleAsset {
     pub fn builder(
         source: Vc<Box<dyn Source>>,
         asset_context: Vc<Box<dyn AssetContext>>,
-        module_transforms: Vc<EcmascriptInputTransforms>,
+        transforms: Vc<EcmascriptInputTransforms>,
         options: Vc<EcmascriptOptions>,
         compile_time_info: Vc<CompileTimeInfo>,
     ) -> EcmascriptModuleAssetBuilder {
@@ -306,7 +306,7 @@ impl EcmascriptModuleAsset {
             source,
             asset_context,
             ty: EcmascriptModuleAssetType::Ecmascript,
-            transforms: module_transforms,
+            transforms,
             options,
             compile_time_info,
             inner_assets: None,
